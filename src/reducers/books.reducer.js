@@ -8,11 +8,10 @@ function reducer(booksState = {
     ...booksState
   };
 
+  let bookIds = JSON.parse(localStorage.getItem('books')) || [];
   switch (action.type) {
     case actions.books.getAll:
-      let bookIds = JSON.parse(localStorage.getItem('books')) || [];
       let books = bookIds.map(bookId => JSON.parse(localStorage.getItem(bookId)) || {});
-      console.log('books', books);
       updatedBooksState.all = books;
       return updatedBooksState;
     case actions.books.get:
@@ -23,7 +22,6 @@ function reducer(booksState = {
       updatedBooksState.currentBook = book;
       return updatedBooksState;
     case actions.books.save:
-      bookIds = JSON.parse(localStorage.getItem('books')) || [];
       if (bookIds.indexOf(action.book.bookId) === -1) {
         bookIds.push(action.book.bookId);
         localStorage.setItem('books', JSON.stringify(bookIds));
@@ -38,20 +36,16 @@ function reducer(booksState = {
         .filter(({ bookId }) => bookId !== action.bookId);
       bookIds = JSON.parse(localStorage.getItem('books'));
       bookIds = bookIds.filter(bookId => bookId !== action.bookId);
-      localStorage.setItem('books', JSON.stringify(bookIds));
-      updatedBooksState.all = updatedBooksState.all.filter(book => 
-        book.bookId !== action.bookId);
+      localStorage.setItem('books', JSON.stringify(bookIds));      
       return updatedBooksState;
     case actions.books.sort:
-      bookIds = JSON.parse(localStorage.getItem('books')) || [];
       books = bookIds.map(bookId => JSON.parse(localStorage.getItem(bookId)) || {});
       updatedBooksState.all = books.sort((a, b) => a[action.field] < b[action.field] ? 1 : -1);        
-      return updatedBooksState;
+      break;
     default:
       return booksState;
   }
 
-  
 }
 
 export default reducer;

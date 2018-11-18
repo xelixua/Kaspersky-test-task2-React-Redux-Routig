@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Controlls from '../controlls/controlls.component';
 import Book from '../book/book.component';
 import actions from '../../actions/book.actions';
+import locs from '../../constants/locs';
 
 class Books extends Component {
   constructor(opts) {
@@ -18,29 +19,29 @@ class Books extends Component {
         <Controlls></Controlls>
         <div className="row">
         <div className="col-md-1">
-          Обложка
+          {locs.common.thumbnail}
         </div>
         <div className="col-md-11 row">
           <div className="col-md-3">
-            Заголовок
+          {locs.common.title}
           </div>
           <div className="col-md-3">
-            Автор
+          {locs.common.author}
           </div>
           <div className="col-md-1">
-            Страниц
+          {locs.common.pages}
           </div>
           <div className="col-md-1">
-            Издательство
+          {locs.common.publisher}
           </div>
           <div className="col-md-1">
-            Год издания
+          {locs.common.yearPublished}
           </div>
           <div className="col-md-1">
-            Дата выхода в тираж
+          {locs.common.printedDate}
           </div>
           <div className="col-md-2">
-            ISBN
+          {locs.common.isbn}
           </div>
         </div>
       </div>
@@ -58,7 +59,6 @@ Books.propType = {
 };
 
 const mapStateToProps = state => {
-  console.log('mapStateToProps called', state);
   return {
     books: state.books.all
   };

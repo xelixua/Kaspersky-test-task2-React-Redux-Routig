@@ -19,7 +19,6 @@ class AddImage extends Component {
 
   _save(event) {
     event.preventDefault();
-    console.log('save function');
     this.save(this.bookId, this.props.image);
     window.location.replace(`/books/${this.bookId}`);
   }
@@ -28,7 +27,6 @@ class AddImage extends Component {
     event.preventDefault();
     const fileReader = new FileReader();
     fileReader.onloadend = () => {
-      console.log('result', fileReader.result);
       this.showImage(fileReader.result);
     };
     fileReader.readAsDataURL(event.target.files[0]);
@@ -92,7 +90,6 @@ AddImage.propType = {
 };
 
 const mapStateToProps = state => {
-  console.log('mapStateToProps called', state);
   return {
     image: state.images.currentImage
   };

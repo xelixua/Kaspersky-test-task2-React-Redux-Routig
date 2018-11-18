@@ -3,7 +3,15 @@ const locs = {
     save: 'Сохранить',
     remove: 'Удалить',
     editImage: 'Обложка',
-    cancel: 'Отмена'
+    cancel: 'Отмена',
+    thumbnail: 'Обложка',
+    title: 'Заголовок',
+    author: 'Автор',
+    pages: 'Страниц',
+    publisher: 'Издательство',
+    yearPublished: 'Год издания',
+    printedDate: 'Дата выхода в тираж',
+    isbn: 'ISBN'
   },
   controlls: {
     sort: 'Сортировать',
