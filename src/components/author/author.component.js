@@ -4,20 +4,24 @@ import './author.component.css';
 
 export default class Author extends Component {
   _getFirstName() {
-    return this.props.firstName;
+    return this.props.author.firstName;
   }
 
-  _getSecondName() {
-    return this.props.secondName;
+  _getLastName() {
+    return this.props.author.lastName;
+  }
+
+  _getEditLink() {
+    return `/books/${this.props.bookId}/authors/${this.props.author.authorId}`;
   }
   render() {
     return(
-        <div class="row">
-          <div class="col-md-6">
-            <Link to={'/authors/' + this.props.bookId}>{this._getFirstName()}</Link>
+        <div className="row author">                 
+          <div className="col-md-2">
+          <Link to={this._getEditLink()}>{this._getLastName()}</Link>
           </div>
-          <div class="col-md-6">
-          <Link to={'/authors/' + this.props.bookId}>{this._getSecondName()}</Link>
+          <div className="col-md-2 ">
+            <Link to={this._getEditLink()}>{this._getFirstName()}</Link>
           </div>
         </div>
     )

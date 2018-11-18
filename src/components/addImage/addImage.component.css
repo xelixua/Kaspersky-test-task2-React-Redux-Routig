@@ -1,0 +1,9 @@
+.image-controlls-buttons {
+  border: 2px solid #FF7777;
+  margin: 20px;
+  border-radius: 5px;
+}
+
+.book-thumbnail {
+  max-height: 200px;
+}

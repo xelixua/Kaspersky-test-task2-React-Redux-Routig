@@ -10,14 +10,16 @@ import AddImage from './components/addImage/addImage.component';
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <div className="container">
+        <BrowserRouter>
         <Switch>
           <Route path="/" exact={true} component={Books} />
-          <Route path="/books/:bookId" component={AddBook} />
-          <Route path="/authors/:authorId" component={AddAuthor} />
-          <Route path="/images/:imageId" component={AddImage} />
+          <Route path="/books/:bookId" exact={true} component={AddBook} />
+          <Route path="/books/:bookId/authors/:authorId" component={AddAuthor} />
+          <Route path="/books/:bookId/image" component={AddImage} />
         </Switch>
       </BrowserRouter>
+      </div>
     );
   }
 }

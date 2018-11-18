@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './book.component.css';
-import Authors from '../authors/authors.component';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,7 +20,7 @@ class Book extends Component {
   }
 
   _getAuthors() {
-    return (<Authors authors={this.props.authors} bookId={this.props.book.bookId}></Authors>)
+    return this.props.book.authors.join(',');
   }
 
   _getPagesCount() {
@@ -47,30 +46,30 @@ class Book extends Component {
 
   render() {
     return(
-      <div class="row">
-        <div class="col-md-3">          
-          <Link to={'/images/' + this.props.book.bookId}><img src={this.props.book.image}></img></Link>
+      <div className="row">
+        <div className="col-md-1">          
+          <Link to={`/books/${this.props.book.bookId}/image`}><img className="book-list-thumbnail" src={this.props.book.image}></img></Link>
         </div>
-        <div class="col-md-9 row">
-          <div class="col-md-2">
+        <div className="col-md-11 row">
+          <div className="col-md-3">
             <Link to={'/books/' + this.props.book.bookId}>{this._getTitle()}</Link>
           </div>
-          <div class="col-md-2">
+          <div className="col-md-3">
             {this._getAuthors()}
           </div>
-          <div class="col-md-2">
+          <div className="col-md-1">
             {this._getPagesCount()}
           </div>
-          <div class="col-md-2">
+          <div className="col-md-1">
             {this._getPublisherName()}
           </div>
-          <div class="col-md-2">
+          <div className="col-md-1">
             {this._getYearPublished()}
           </div>
-          <div class="col-md-2">
+          <div className="col-md-1">
             {this._getPrintedDate()}
           </div>
-          <div class="col-md-2">
+          <div className="col-md-2">
             {this._getISBN()}
           </div>
         </div>

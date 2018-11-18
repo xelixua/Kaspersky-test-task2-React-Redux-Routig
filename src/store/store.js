@@ -4,10 +4,6 @@ import images from '../reducers/images.reducer';
 
 import { combineReducers, createStore } from 'redux';
 const reducer = combineReducers({ books, authors, images });
-const store = createStore(reducer, {
-  books: {},
-  authors: {},
-  images: {}
-});
+const store = createStore(reducer, {});
 
 export default store;

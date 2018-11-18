@@ -5,15 +5,22 @@ import locs from '../../constants/locs';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../../actions/book.actions';
+import uuidv4 from 'uuid/v4';
 
 class Controlls extends Component {
+  constructor(opts) {
+    super(opts);
+    const { sortByName, sortByYearPublished } = opts;
+    this.sortByName = sortByName;
+    this.sortByYearPublished = sortByYearPublished;
+  }
   render() {
     return(
-      <div class="row">
-        <Link to={'/books'}><div class="col-md-1">&#43;</div></Link>
-        <div class="col-md-3">{locs.controlls.sort}</div>
-        <div onClick={this.props.sortByName} class="col-md-3">{locs.controlls.byName}</div>
-        <div onClick={this.props.sortByYearPublished} class="col-md-3">{locs.controlls.byYearPublished}</div>
+      <div className="row books-controlls">
+        <Link to={`/books/book-${uuidv4()}`}><div className="col-md-1">&#43;</div></Link>
+        <div className="col-md-2">{locs.controlls.sort}</div>
+        <div onClick={this.sortByName} className="col-md-2"><a href="#">{locs.controlls.byName}</a></div>
+        <div onClick={this.sortByYearPublished} className="col-md-2"><a href="#">{locs.controlls.byYearPublished}</a></div>
       </div>
     )
   }
@@ -27,7 +34,7 @@ Controlls.propType = {
 const mapDispatchToProps = dispatch => {
   return {
     sortByName: () => {
-      dispatch(actions.sort('name'))
+      dispatch(actions.sort('title'))
     },
     sortByYearPublished: () => {
       dispatch(actions.sort('yearPublished'))
@@ -35,5 +42,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const VisibleControlls = connect(mapDispatchToProps)(Controlls);
+const VisibleControlls = connect(() => {}, mapDispatchToProps)(Controlls);
 export default VisibleControlls;

@@ -1,3 +1,18 @@
 .hidden {
   display: none;
 }
+
+.book-controlls-buttons {
+  border: 2px solid #AAAAAA;
+  margin: 20px;
+  border-radius: 5px;
+}
+
+.book-input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+button {
+  margin: 20px;
+}

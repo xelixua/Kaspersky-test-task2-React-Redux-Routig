@@ -1,55 +1,57 @@
-import uuidv4 from 'uuid/v4';
 import actions from '../constants/actions';
 
-function reducer(books = {}, action) {
-  console.log('books', books);
+function reducer(booksState = {
+  all: [],
+  currentBook: {}
+}, action) {
   const updatedBooksState = {
-    ...books
+    ...booksState
   };
 
   switch (action.type) {
     case actions.books.getAll:
-      const books = localStorage.getItem('books');
+      let bookIds = JSON.parse(localStorage.getItem('books')) || [];
+      let books = bookIds.map(bookId => JSON.parse(localStorage.getItem(bookId)) || {});
+      console.log('books', books);
       updatedBooksState.all = books;
-      break;
+      return updatedBooksState;
     case actions.books.get:
-      if (!action.bookId) {
-        return books;
-      }       
-      const book = localStorage.getItem(action.bookId);
-      updatedBooksState.currentBook = book;
-      break;
-    case actions.books.save:
-      if (book.bookId) {
-        const index = updatedBooksState.all.findIndex((book) => book.bookId === bookId);
-        updatedBooksState.all[index] = action.book;
-      } else {
-        book.bookId = uuidv4();
-        updatedBooksState.all.push(book);
+      let book = {};
+      if (action.bookId) {
+        book = JSON.parse(localStorage.getItem(action.bookId)) || {};
       }
       updatedBooksState.currentBook = book;
-      localStorage.setItem('book', updatedBooksState.all);
+      return updatedBooksState;
+    case actions.books.save:
+      bookIds = JSON.parse(localStorage.getItem('books')) || [];
+      if (bookIds.indexOf(action.book.bookId) === -1) {
+        bookIds.push(action.book.bookId);
+        localStorage.setItem('books', JSON.stringify(bookIds));
+      }
 
-      const bookId = book.bookId || 'book-' + uuidv4();
-      book.bookId = bookId;
-      localStorage.setItem(bookId, book);      
-      break;
+      localStorage.setItem(action.book.bookId, JSON.stringify(action.book));
+      updatedBooksState.currentBook = action.book;      
+      return updatedBooksState;
     case actions.books.remove:
-      localStorage.removeItem(bookId);
+      localStorage.removeItem(action.bookId);
       updatedBooksState.all = updatedBooksState.all
         .filter(({ bookId }) => bookId !== action.bookId);
-      localStorage.setItem('book', updatedBooksState.all);
-      break;
+      bookIds = JSON.parse(localStorage.getItem('books'));
+      bookIds = bookIds.filter(bookId => bookId !== action.bookId);
+      localStorage.setItem('books', JSON.stringify(bookIds));
+      updatedBooksState.all = updatedBooksState.all.filter(book => 
+        book.bookId !== action.bookId);
+      return updatedBooksState;
     case actions.books.sort:
-      books = localStorage.getItem('books');
-      books = books.sort((a, b) => a[action.field] < b[action.field]);
-      updatedBooksState.all = books;
-      break;
+      bookIds = JSON.parse(localStorage.getItem('books')) || [];
+      books = bookIds.map(bookId => JSON.parse(localStorage.getItem(bookId)) || {});
+      updatedBooksState.all = books.sort((a, b) => a[action.field] < b[action.field] ? 1 : -1);        
+      return updatedBooksState;
     default:
-      break;
+      return booksState;
   }
 
-  return updatedBooksState;
+  
 }
 
 export default reducer;

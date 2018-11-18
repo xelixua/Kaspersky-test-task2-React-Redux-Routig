@@ -17,7 +17,7 @@ const save = (author, bookId) => ({
   bookId
 });
 
-const remove = (authorId, bookId) => ({
+const remove = (bookId, authorId) => ({
   type: actions.authors.remove,
   authorId,
   bookId

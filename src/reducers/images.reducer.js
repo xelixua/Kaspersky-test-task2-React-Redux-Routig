@@ -1,28 +1,39 @@
-import uuidv4 from 'uuid/v4';
 import actions from '../constants/actions';
 
-function reducer(images = {}, action) {
+function reducer(imagesState = {
+  currentImage: {}
+}, action) {
   const updatedImagesState = {
-    ...images
+    ...imagesState
   };
 
   switch (action.type) {
     case actions.images.get:
-      const image = localStorage.getItem('image-' + action.bookId);
-      updatedImagesState.currentImage = image;
-      break;
+      let book = JSON.parse(localStorage.getItem(action.bookId)) || {};
+      updatedImagesState.currentImage = book.image;
+      return updatedImagesState;
     case actions.images.save:
-      localStorage.setItem('image-' + action.bookId, action.image);
-      break;
+      console.log('save action', action);
+      book = JSON.parse(localStorage.getItem(action.bookId)) || {};
+      book.image = action.image;
+      console.log('book', book);
+      localStorage.setItem(action.bookId, JSON.stringify(book));
+      console.log('saved image on ', action.bookId);
+      updatedImagesState.currentImage = action.image;
+      return updatedImagesState;
+    case actions.images.showImage:
+      console.log('actions.images.showImage action', action);
+      updatedImagesState.currentImage = action.base64Image;
+      return updatedImagesState;
     case actions.images.remove:
-      localStorage.removeItem('image-' + action.bookId);
+      book = JSON.parse(localStorage.getItem(action.bookId)) || {};
+      delete book.image;      
+      localStorage.setItem(action.bookId, JSON.stringify(book));
       delete updatedImagesState.currentImage;
-      break;
+      return updatedImagesState;
     default:
-      break;
+      return imagesState;
   }
-
-  return updatedImagesState;
 }
 
 export default reducer;

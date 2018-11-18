@@ -1,43 +1,49 @@
 import uuidv4 from 'uuid/v4';
 import actions from '../constants/actions';
 
-function reducer(authors = {}, action) {
+function reducer(authorsState = {
+  currentAuthors: [],
+  currentAuthor: {}
+}, action) {
   const updatedAuthorsState = {
-    ...authors
+    ...authorsState
   };
 
   switch (action.type) {
     case actions.authors.getAll:
-      const authors = localStorage.get(action.bookId + '-authors');
+      let authors = [];
+      if (action.bookId) {
+        authors = JSON.parse(localStorage.getItem(action.bookId + '-authors')) || [];
+      }
       updatedAuthorsState.currentAuthors = authors;
-      break;
+      return updatedAuthorsState;
     case actions.authors.get:
-      authors = localStorage.get(action.bookId + '-authors');
-      const author = authors.find(author => author.authorId === action.authorId);
+      authors = JSON.parse(localStorage.getItem(action.bookId + '-authors')) || [];
+      const author = authors.find(author => author.authorId === action.authorId) || {};
       updatedAuthorsState.currentAuthor = author;
-      break;
+      return updatedAuthorsState;
     case actions.authors.save:
-      authors = localStorage.get(action.bookId + '-authors');
-      if (author.authorId) {
-        const index = authors.findIndex((author) => author.authorId === action.authorId);
+      authors = JSON.parse(localStorage.getItem(action.bookId + '-authors')) || [];
+      if (action.author.authorId) {
+        const index = authors.findIndex((author) => author.authorId === action.author.authorId);
         authors[index] = action.author;
       } else {
-        author.authorId = 'author-' + uuidv4();
-        authors.push(author);
-      }     
-      localStorage.setItem(action.bookId + '-authors', authors);
-      break;
-    case actions.authors.remove:
-      authors = localStorage.get(action.bookId + '-authors');
-      authors = authors.filter(author => author.bookId !== action.bookId);
-      localStorage.setItem(action.bookId + '-authors', authors);
+        action.author.authorId = 'author-' + uuidv4();
+        authors.push(action.author);
+      }
+      localStorage.setItem(action.bookId + '-authors', JSON.stringify(authors));
+      updatedAuthorsState.currentAuthor = action.author;
       updatedAuthorsState.currentAuthors = authors;
-      break;
+      return updatedAuthorsState;
+    case actions.authors.remove:
+      authors = JSON.parse(localStorage.getItem(action.bookId + '-authors')) || [];
+      authors = authors.filter(author => author.authorId !== action.authorId);
+      localStorage.setItem(action.bookId + '-authors', JSON.stringify(authors));
+      updatedAuthorsState.currentAuthors = authors;
+      return updatedAuthorsState;
     default:
-      break;
+      return authorsState;
   }
-
-  return updatedAuthorsState;
 }
 
 export default reducer;

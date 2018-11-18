@@ -1,0 +1,11 @@
+.author {
+  background-color: #AAAAAA;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.author .col-md-6 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

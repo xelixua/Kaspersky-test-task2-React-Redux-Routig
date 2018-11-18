@@ -14,11 +14,39 @@ class Books extends Component {
   }
   render() {
     return(
-      <div>
+      <div className="books-list">
         <Controlls></Controlls>
-        {this.props.books.map(book => 
-          <Book book={book}></Book>
-        )}
+        <div className="row">
+        <div className="col-md-1">
+          Обложка
+        </div>
+        <div className="col-md-11 row">
+          <div className="col-md-3">
+            Заголовок
+          </div>
+          <div className="col-md-3">
+            Автор
+          </div>
+          <div className="col-md-1">
+            Страниц
+          </div>
+          <div className="col-md-1">
+            Издательство
+          </div>
+          <div className="col-md-1">
+            Год издания
+          </div>
+          <div className="col-md-1">
+            Дата выхода в тираж
+          </div>
+          <div className="col-md-2">
+            ISBN
+          </div>
+        </div>
+      </div>
+        {this.props.books.map((book, index) => {          
+          return <Book key={'book-' + index} book={book}></Book>
+        })}
       </div>      
     )
   }
@@ -30,6 +58,7 @@ Books.propType = {
 };
 
 const mapStateToProps = state => {
+  console.log('mapStateToProps called', state);
   return {
     books: state.books.all
   };

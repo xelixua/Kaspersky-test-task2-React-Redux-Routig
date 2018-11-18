@@ -14,7 +14,8 @@ const actions = {
   },
   images: {
     get: 'GET_IMAGE',
-    save: 'SAVE_IMAGE',    
+    save: 'SAVE_IMAGE',
+    showImage: 'SHOW_IMAGE',
     remove: 'REMOVE_IMAGE'
   }
 };
