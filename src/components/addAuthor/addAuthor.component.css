@@ -1,0 +1,10 @@
+.author-input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.author-controlls-buttons {
+  border: 2px solid rgb(31, 133, 31);
+  margin: 20px;
+  border-radius: 5px;
+}
